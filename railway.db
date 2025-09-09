@@ -1,0 +1,96 @@
+-- ============================================
+-- Create Tables
+-- ============================================
+
+-- Users Table
+CREATE TABLE IF NOT EXISTS users (
+    user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL
+);
+
+-- Employees Table
+CREATE TABLE IF NOT EXISTS employees (
+    employee_id TEXT PRIMARY KEY,
+    password TEXT NOT NULL,
+    designation TEXT NOT NULL
+);
+
+-- Trains Table
+CREATE TABLE IF NOT EXISTS trains (
+    train_number TEXT PRIMARY KEY,
+    train_name TEXT NOT NULL,
+    departure_date TEXT NOT NULL,
+    start_destination TEXT NOT NULL,
+    end_destination TEXT NOT NULL
+);
+
+-- ============================================
+-- Insert Sample Data
+-- ============================================
+
+-- Insert Users
+INSERT INTO users (username, password) VALUES
+('admin', 'admin123'),
+('user1', 'pass1'),
+('user2', 'pass2');
+
+-- Insert Employees
+INSERT INTO employees (employee_id, password, designation) VALUES
+('E101', 'emp123', 'Ticket Clerk'),
+('E102', 'emp456', 'Station Master'),
+('E103', 'emp789', 'Train Conductor');
+
+-- Insert Trains
+INSERT INTO trains (train_number, train_name, departure_date, start_destination, end_destination) VALUES
+('101', 'Rajdhani Express', '2025-09-12', 'Mumbai', 'Delhi'),
+('102', 'Shatabdi Express', '2025-09-13', 'Delhi', 'Bhopal'),
+('103', 'Duronto Express', '2025-09-14', 'Kolkata', 'Pune'),
+('104', 'Garib Rath', '2025-09-15', 'Chennai', 'Hyderabad'),
+('105', 'Vande Bharat', '2025-09-16', 'Ahmedabad', 'Mumbai');
+
+-- ============================================
+-- Seats for Train 101
+-- ============================================
+
+CREATE TABLE IF NOT EXISTS seats_101 (
+    seat_number INTEGER PRIMARY KEY,
+    is_booked INTEGER DEFAULT 0,
+    booked_by INTEGER,
+    FOREIGN KEY(booked_by) REFERENCES users(user_id)
+);
+
+INSERT INTO seats_101 (seat_number, is_booked, booked_by) VALUES
+(1, 0, NULL),
+(2, 0, NULL),
+(3, 1, 1),   -- booked by user_id 1
+(4, 0, NULL),
+(5, 1, 2),   -- booked by user_id 2
+(6, 0, NULL),
+(7, 0, NULL),
+(8, 0, NULL),
+(9, 0, NULL),
+(10, 0, NULL);
+
+-- ============================================
+-- Seats for Train 102
+-- ============================================
+
+CREATE TABLE IF NOT EXISTS seats_102 (
+    seat_number INTEGER PRIMARY KEY,
+    is_booked INTEGER DEFAULT 0,
+    booked_by INTEGER,
+    FOREIGN KEY(booked_by) REFERENCES users(user_id)
+);
+
+INSERT INTO seats_102 (seat_number, is_booked, booked_by) VALUES
+(1, 0, NULL),
+(2, 1, 1),  -- booked by user_id 1
+(3, 0, NULL),
+(4, 0, NULL),
+(5, 0, NULL),
+(6, 0, NULL),
+(7, 0, NULL),
+(8, 0, NULL),
+(9, 0, NULL),
+(10, 0, NULL);
